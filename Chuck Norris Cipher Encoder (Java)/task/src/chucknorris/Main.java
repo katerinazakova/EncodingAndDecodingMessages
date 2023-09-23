@@ -21,11 +21,10 @@ public class Main {
                         System.out.println("Input encoded string:");
                         String inputMessage = scanner.nextLine();
                         boolean validCode = true;
-                        if (controlCharacters(inputMessage) == validCode
-                                && controlBlockIsOdd(inputMessage) == validCode
-                                && controlFirstBlock(inputMessage) == validCode
-                                && controlLengthBinaryCode(inputMessage) == validCode
-                                && controlBlocks(inputMessage) == validCode) {
+                        if (isOnlyZeroOrSpaceInCode(inputMessage) == validCode
+                                && IsNumberOfBlockOdd(inputMessage) == validCode
+                                && isLengthOfDecodeBinaryStringMultipleOf7(inputMessage) == validCode
+                                && is0Or00InOddBlocks(inputMessage) == validCode) {
                             System.out.println("Decoded string:");
                             System.out.println(decodeChuckNorris(inputMessage));
                         } else {
@@ -48,10 +47,8 @@ public class Main {
             String binaryCode = String.format("%7s", Integer.toBinaryString(c)).replace(' ', '0');
             binaryMessage.append(binaryCode);
         }
-
         StringBuilder result = new StringBuilder();
         int i = 0;
-
         while (i < binaryMessage.length()) {
             char currentElementOfBinary = binaryMessage.charAt(i);
             int count = 1;
@@ -70,7 +67,6 @@ public class Main {
         StringBuilder decoded = new StringBuilder();
 
         String[] blocks = encodedMessage.split(" ");
-
         for (int i = 0; i < blocks.length; i += 2) {
             int count = blocks[i].equals("00") ? 0 : 1;
             for (int j = 0; j < blocks[i + 1].length(); j++) {
@@ -79,14 +75,47 @@ public class Main {
         }
 
         StringBuilder result = new StringBuilder();
-
         for (int i = 0; i < decoded.length(); i += 7) {
             String binaryChar = decoded.substring(i, Math.min(i + 7, decoded.length()));
             int decimalChar = Integer.parseInt(binaryChar, 2);
             result.append((char) decimalChar);
         }
-
         return result.toString();
+    }
+
+    public static boolean isOnlyZeroOrSpaceInCode(String inputMessage) {
+        if (inputMessage.matches("^[0\\s]+$")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean IsNumberOfBlockOdd(String inputMessage) {
+        String[] blocks = inputMessage.split(" ");
+        int counter = 0;
+        for (int i = 0; i < blocks.length; i++) {
+            counter++;
+        }
+
+        if (counter % 2 == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean is0Or00InOddBlocks(String inputMessage) {
+        String[] blocks = inputMessage.split(" ");
+        boolean validBlock = true;
+        for (int i = 0; i < blocks.length; i += 2) {
+            if ("0".equals(blocks[i]) || "00".equals(blocks[i])) {
+                validBlock = true;
+            } else {
+                validBlock = false;
+            }
+        }
+        return validBlock;
     }
 
     public static int determineLengthOfDecodeBinaryString(String inputMessage) {
@@ -102,52 +131,7 @@ public class Main {
         return decoded.length();
     }
 
-    public static boolean controlCharacters(String inputMessage) {
-        if (inputMessage.matches("^[0\\s]+$")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static boolean controlFirstBlock(String inputMessage) {
-        if (inputMessage.startsWith("0") && inputMessage.charAt(1) == '0' &&
-                inputMessage.charAt(2) == ' ' || inputMessage.charAt(1) == ' '
-                && inputMessage.charAt(2) == '0') {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static boolean controlBlockIsOdd(String inputMessage) {
-        String[] blocks = inputMessage.split(" ");
-        int counter = 0;
-        for (int i = 0; i < blocks.length; i++) {
-            counter++;
-        }
-
-        if (counter % 2 == 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static boolean controlBlocks(String inputMessage) {
-        String[] blocks = inputMessage.split(" ");
-        boolean validBlock = true;
-        for (int i = 0; i < blocks.length; i += 2) {
-            if ("0".equals(blocks[i]) || "00".equals(blocks[i])) {
-                validBlock = true;
-            } else {
-                validBlock = false;
-            }
-        }
-        return validBlock;
-    }
-
-    public static boolean controlLengthBinaryCode(String inputMessage) {
+    public static boolean isLengthOfDecodeBinaryStringMultipleOf7(String inputMessage) {
         int length = determineLengthOfDecodeBinaryString(inputMessage);
         if (length % 7 == 0) {
             return true;
