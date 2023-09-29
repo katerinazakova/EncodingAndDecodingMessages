@@ -8,35 +8,35 @@ public class Main {
         while (true) {
             System.out.println("Please input operation (encode/decode/exit):");
             String choice = scanner.nextLine();
-            if ("encode".equals(choice) || "decode".equals(choice) || "exit".equals(choice)) {
-                switch (choice) {
-                    case "encode":
-                        System.out.println("Input string:");
-                        String inputText = scanner.nextLine();
-                        System.out.println("Encoded string:");
-                        String encodedMessage = encodeInputMessage(inputText);
-                        System.out.println(encodedMessage);
-                        break;
-                    case "decode":
-                        System.out.println("Input encoded string:");
-                        String inputMessage = scanner.nextLine();
-                        boolean validCode = true;
-                        if (isOnlyZeroOrSpaceInCode(inputMessage) == validCode
-                                && IsNumberOfBlockOdd(inputMessage) == validCode
-                                && isLengthOfDecodeBinaryStringMultipleOf7(inputMessage) == validCode
-                                && is0Or00InOddBlocks(inputMessage) == validCode) {
-                            System.out.println("Decoded string:");
-                            System.out.println(decodeChuckNorris(inputMessage));
-                        } else {
-                            System.out.println("Encoded string is not valid.");
-                        }
-                        break;
-                    case "exit":
-                        System.out.println("Bye!");
-                        return;
-                }
-            } else {
-                System.out.println("There is no '" + choice + "' operation");
+            switch (choice) {
+                case "encode":
+                    System.out.println("Input string:");
+                    String inputText = scanner.nextLine();
+                    System.out.println("Encoded string:");
+                    String encodedMessage = encodeInputMessage(inputText);
+                    System.out.println(encodedMessage);
+                    System.out.println();
+                    break;
+                case "decode":
+                    System.out.println("Input encoded string:");
+                    String inputMessage = scanner.nextLine();
+                    boolean validCode = true;
+                    if (isOnlyZeroOrSpaceInCode(inputMessage) == validCode
+                            && IsNumberOfBlockEven(inputMessage) == validCode
+                            && isLengthOfDecodeBinaryStringMultipleOf7(inputMessage) == validCode
+                            && is0Or00InEvenBlocks(inputMessage) == validCode) {
+                        System.out.println("Decoded string:");
+                        System.out.println(decodeInputMessage(inputMessage));
+                        System.out.println();
+                    } else {
+                        System.out.println("Encoded string is not valid.");
+                    }
+                    break;
+                case "exit":
+                    System.out.println("Bye!");
+                    return;
+                default:
+                    System.out.println("There is no '" + choice + "' operation");
             }
         }
     }
@@ -63,7 +63,7 @@ public class Main {
         return result.toString().trim();
     }
 
-    public static String decodeChuckNorris(String encodedMessage) {
+    public static String decodeInputMessage(String encodedMessage) {
         StringBuilder decoded = new StringBuilder();
 
         String[] blocks = encodedMessage.split(" ");
@@ -91,7 +91,7 @@ public class Main {
         }
     }
 
-    public static boolean IsNumberOfBlockOdd(String inputMessage) {
+    public static boolean IsNumberOfBlockEven(String inputMessage) {
         String[] blocks = inputMessage.split(" ");
         int counter = 0;
         for (int i = 0; i < blocks.length; i++) {
@@ -105,7 +105,7 @@ public class Main {
         }
     }
 
-    public static boolean is0Or00InOddBlocks(String inputMessage) {
+    public static boolean is0Or00InEvenBlocks(String inputMessage) {
         String[] blocks = inputMessage.split(" ");
         boolean validBlock = true;
         for (int i = 0; i < blocks.length; i += 2) {
