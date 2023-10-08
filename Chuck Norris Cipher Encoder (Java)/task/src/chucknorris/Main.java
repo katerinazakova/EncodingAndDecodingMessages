@@ -20,11 +20,10 @@ public class Main {
                 case "decode":
                     System.out.println("Input encoded string:");
                     String inputMessage = scanner.nextLine();
-                    boolean validCode = true;
-                    if (isOnlyZeroOrSpaceInCode(inputMessage) == validCode
-                            && IsNumberOfBlockEven(inputMessage) == validCode
-                            && isLengthOfDecodeBinaryStringMultipleOf7(inputMessage) == validCode
-                            && is0Or00InEvenBlocks(inputMessage) == validCode) {
+                    if (isOnlyZeroOrSpaceInCode(inputMessage)
+                            && isNumberOfBlockEven(inputMessage)
+                            && isLengthOfDecodeBinaryStringMultipleOf7(inputMessage)
+                            && is0Or00InEvenBlocks(inputMessage)) {
                         System.out.println("Decoded string:");
                         System.out.println(decodeInputMessage(inputMessage));
                         System.out.println();
@@ -57,7 +56,8 @@ public class Main {
                 count++;
                 i++;
             }
-            result.append((currentElementOfBinary == '1' ? "0" : "00") + " " + "0".repeat(count) + " ");
+
+            result.append((currentElementOfBinary == '1' ? "0" : "00") + " " + "0".repeat(count)+ " ");
             i++;
         }
         return result.toString().trim();
@@ -68,10 +68,11 @@ public class Main {
 
         String[] blocks = encodedMessage.split(" ");
         for (int i = 0; i < blocks.length; i += 2) {
-            int count = blocks[i].equals("00") ? 0 : 1;
+            int binaryDigit = blocks[i].equals("00") ? 0 : 1;
             for (int j = 0; j < blocks[i + 1].length(); j++) {
-                decoded.append(count == 0 ? '0' : '1');
+                decoded.append(binaryDigit == 0 ? '0' : '1');
             }
+
         }
 
         StringBuilder result = new StringBuilder();
@@ -84,25 +85,13 @@ public class Main {
     }
 
     public static boolean isOnlyZeroOrSpaceInCode(String inputMessage) {
-        if (inputMessage.matches("^[0\\s]+$")) {
-            return true;
-        } else {
-            return false;
-        }
+        return inputMessage.matches("^[0\\s]+$");
     }
 
-    public static boolean IsNumberOfBlockEven(String inputMessage) {
+    public static boolean isNumberOfBlockEven (String inputMessage) {
         String[] blocks = inputMessage.split(" ");
-        int counter = 0;
-        for (int i = 0; i < blocks.length; i++) {
-            counter++;
-        }
-
-        if (counter % 2 == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        int length = blocks.length;
+        return (length % 2 == 0);
     }
 
     public static boolean is0Or00InEvenBlocks(String inputMessage) {
@@ -133,10 +122,6 @@ public class Main {
 
     public static boolean isLengthOfDecodeBinaryStringMultipleOf7(String inputMessage) {
         int length = determineLengthOfDecodeBinaryString(inputMessage);
-        if (length % 7 == 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return length % 7 == 0;
     }
 }
