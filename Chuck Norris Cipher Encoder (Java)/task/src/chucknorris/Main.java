@@ -13,33 +13,12 @@ public class Main {
                     System.out.println("Input string:");
                     String inputText = scanner.nextLine();
                     System.out.println("Encoded string:");
-                    String encodedMessage = encodeInputMessage(inputText);
-                    System.out.println(encodedMessage);
-                    System.out.println();
+                    System.out.println(encodeInputMessage(inputText));
                     break;
                 case "decode":
                     System.out.println("Input encoded string:");
                     String inputMessage = scanner.nextLine();
-                    if (!(isOnlyZeroOrSpaceInCode(inputMessage))) {
-                        System.out.println("Encoded string is not valid.");
-                        break;
-                    }
-                    if (!(isNumberOfBlocksEven(inputMessage))) {
-                        System.out.println("Encoded string is not valid.");
-                        break;
-                    }
-                    if (!(isLengthOfDecodeBinaryStringMultipleOf7(inputMessage))) {
-                        System.out.println("Encoded string is not valid.");
-                        break;
-                    }
-                    if (!(is0Or00InEvenBlocks(inputMessage))) {
-                        System.out.println("Encoded string is not valid.");
-                        break;
-                    } else {
-                        System.out.println("Decoded string:");
-                        System.out.println(decodeInputMessage(inputMessage));
-                        System.out.println();
-                    }
+                    System.out.println (isValidEncodedMessage(inputMessage));
                     break;
                 case "exit":
                     System.out.println("Bye!");
@@ -50,7 +29,22 @@ public class Main {
             }
         }
     }
-
+    public static String isValidEncodedMessage (String inputMessage){
+        if (!(isOnlyZeroOrSpaceInCode(inputMessage))) {
+            return "Encoded string is not valid.";
+        }
+        if (!(isNumberOfBlocksEven(inputMessage))) {
+            return "Encoded string is not valid.";
+        }
+        if (!(isLengthOfDecodeBinaryStringMultipleOf7(inputMessage))) {
+            return "Encoded string is not valid.";
+        }
+        if (!(is0Or00InEvenBlocks(inputMessage))) {
+            return "Encoded string is not valid.";
+        } else {
+            return "Decoded string: " + "\n" + decodeInputMessage(inputMessage);
+        }
+    }
     public static String encodeInputMessage(String text) {
         StringBuilder binaryMessage = new StringBuilder();
         for (char c : text.toCharArray()) {
@@ -74,8 +68,8 @@ public class Main {
         return result.toString().trim();
     }
 
-    public static String decodeInputMessage(String encodedMessage) {
-        String decodeBinary = decodingBinaryString(encodedMessage);
+    public static String decodeInputMessage(String inputMessage) {
+        String decodeBinary = decodingBinaryString(inputMessage);
 
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < decodeBinary.length(); i += 7) {
@@ -86,10 +80,10 @@ public class Main {
         return result.toString();
     }
 
-    public static String decodingBinaryString(String encodedMessage) {
+    public static String decodingBinaryString(String inputMessage) {
         StringBuilder decoded = new StringBuilder();
 
-        String[] blocks = encodedMessage.split(" ");
+        String[] blocks = inputMessage.split(" ");
         for (int i = 0; i < blocks.length; i += 2) {
             String binaryDigit = blocks[i].equals("00") ? "0" : "1";
             int count = blocks[i + 1].length();
