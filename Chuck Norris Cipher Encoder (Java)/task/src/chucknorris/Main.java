@@ -20,15 +20,25 @@ public class Main {
                 case "decode":
                     System.out.println("Input encoded string:");
                     String inputMessage = scanner.nextLine();
-                    if (isOnlyZeroOrSpaceInCode(inputMessage)
-                            && isNumberOfBlocksEven(inputMessage)
-                            && isLengthOfDecodeBinaryStringMultipleOf7(inputMessage)
-                            && is0Or00InEvenBlocks(inputMessage)) {
+                    if (!(isOnlyZeroOrSpaceInCode(inputMessage))) {
+                        System.out.println("Encoded string is not valid.");
+                        break;
+                    }
+                    if (!(isNumberOfBlocksEven(inputMessage))) {
+                        System.out.println("Encoded string is not valid.");
+                        break;
+                    }
+                    if (!(isLengthOfDecodeBinaryStringMultipleOf7(inputMessage))) {
+                        System.out.println("Encoded string is not valid.");
+                        break;
+                    }
+                    if (!(is0Or00InEvenBlocks(inputMessage))) {
+                        System.out.println("Encoded string is not valid.");
+                        break;
+                    } else {
                         System.out.println("Decoded string:");
                         System.out.println(decodeInputMessage(inputMessage));
                         System.out.println();
-                    } else {
-                        System.out.println("Encoded string is not valid.");
                     }
                     break;
                 case "exit":
@@ -36,6 +46,7 @@ public class Main {
                     return;
                 default:
                     System.out.println("There is no '" + choice + "' operation");
+
             }
         }
     }
